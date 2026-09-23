@@ -1,0 +1,12 @@
+:root {
+  --heading: "Inter", sans-serif;
+  --text-h: #111827;
+}
+
+body {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
