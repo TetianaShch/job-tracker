@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Vacancy, VacancyStatus } from "./types/vacancy";
-import { saveVacancy } from "./services/vacancies";
+import { getVacancies, saveVacancy, deleteVacancy } from "./services/vacancies";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -9,8 +9,10 @@ function App() {
   const [note, setNote] = useState("");
   const [status, setStatus] = useState<VacancyStatus>("Saved");
   const [message, setMessage] = useState("");
+  const [vacancies, setVacancies] = useState<Vacancy[]>([]);
 
   useEffect(() => {
+    getVacancies().then(setVacancies);
     chrome.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
       if (tab) {
         setTitle(tab?.title ?? "Назва недоступна");
@@ -33,7 +35,17 @@ function App() {
     };
 
     const saved = await saveVacancy(vacancy);
+
+    if (saved) {
+      setVacancies((current) => [...current, vacancy]);
+    }
+
     setMessage(saved ? "Вакансію збережено" : "Цю вакансію вже збережено");
+  }
+
+  async function handleDelete(id: string) {
+    await deleteVacancy(id);
+    setVacancies((current) => current.filter((item) => item.id !== id));
   }
 
   return (
@@ -82,6 +94,26 @@ function App() {
         <button type="submit">Зберегти</button>
         {message && <p role="status">{message}</p>}
       </form>
+      <section>
+        <h2>Збережені вакансії</h2>
+        {vacancies.length === 0 ? (
+          <p>Поки немає збережених вакансій.</p>
+        ) : (
+          <ul>
+            {vacancies.map((item) => (
+              <li key={item.id}>
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  {item.title}
+                </a>
+                {item.company && <span> — {item.company}</span>}
+                <button type="button" onClick={() => handleDelete(item.id)}>
+                  Видалити
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </>
   );
 }

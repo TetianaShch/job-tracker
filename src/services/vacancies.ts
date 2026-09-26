@@ -18,3 +18,11 @@ export async function saveVacancy(vacancy: Vacancy): Promise<boolean> {
     return true;
 }
 
+export async function deleteVacancy(id: string): Promise<void> {
+    const vacancies = await getVacancies();
+
+    await chrome.storage.local.set({
+        vacancies: vacancies.filter((item) => item.id !== id),
+    });
+}
+
