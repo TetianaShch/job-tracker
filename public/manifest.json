@@ -3,7 +3,8 @@
   "name": "Job Tracker",
   "version": "0.1.0",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
 
   "action": {

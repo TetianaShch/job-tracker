@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import type { VacancyStatus } from "./types/vacancy";
+import type { Vacancy, VacancyStatus } from "./types/vacancy";
+import { saveVacancy } from "./services/vacancies";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -7,6 +8,7 @@ function App() {
   const [company, setCompany] = useState("");
   const [note, setNote] = useState("");
   const [status, setStatus] = useState<VacancyStatus>("Saved");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
@@ -17,9 +19,26 @@ function App() {
     });
   }, []);
 
+  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const vacancy: Vacancy = {
+      id: crypto.randomUUID(),
+      title: title.trim(),
+      company: company.trim(),
+      url: url.trim(),
+      note: note.trim(),
+      status,
+      createdAt: new Date().toISOString(),
+    };
+
+    const saved = await saveVacancy(vacancy);
+    setMessage(saved ? "Вакансію збережено" : "Цю вакансію вже збережено");
+  }
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="title">Назва вакансії</label>
         <input
           id="title"
@@ -60,9 +79,8 @@ function App() {
           <option value="Rejected">Відхилено</option>
           <option value="Interview">Інтерв'ю</option>
         </select>
-        <button type="submit" disabled>
-          Зберегти
-        </button>
+        <button type="submit">Зберегти</button>
+        {message && <p role="status">{message}</p>}
       </form>
     </>
   );
