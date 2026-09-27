@@ -3,8 +3,17 @@
   --text-h: #111827;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  width: 360px;
+  padding: 20px;
+  font-family: var(--heading);
+  color: var(--text-h);
+  background: #f7faf9;
 }
 
 p {

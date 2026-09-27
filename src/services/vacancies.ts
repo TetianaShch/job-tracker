@@ -1,4 +1,4 @@
-import type { Vacancy } from "../types/vacancy";
+import type { Vacancy, VacancyStatus } from "../types/vacancy";
 
 export async function getVacancies(): Promise<Vacancy[]> {
     const result = await chrome.storage.local.get("vacancies");
@@ -23,6 +23,19 @@ export async function deleteVacancy(id: string): Promise<void> {
 
     await chrome.storage.local.set({
         vacancies: vacancies.filter((item) => item.id !== id),
+    });
+}
+
+export async function updateVacancyStatus(
+    id: string,
+    status: VacancyStatus
+): Promise<void> {
+    const vacancies = await getVacancies();
+
+    await chrome.storage.local.set({
+        vacancies: vacancies.map((item) =>
+            item.id === id ? { ...item, status } : item
+        ),
     });
 }
 
