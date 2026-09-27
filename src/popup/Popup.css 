@@ -1,0 +1,22 @@
+.popupNav {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+}
+
+.popupNav button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #374151;
+  font: inherit;
+  cursor: pointer;
+}
+
+.popupNav button[aria-pressed="true"] {
+  border-color: #374151;
+  background: #374151;
+  color: #fff;
+}
