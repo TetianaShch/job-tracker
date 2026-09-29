@@ -20,9 +20,16 @@ function VacancyList({
   onStatusChange,
 }: VacancyListProps) {
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<VacancyStatus | "all">(
+    "all",
+  );
 
   const filteredVacancies = vacancies.filter((item) => {
     const query = search.trim().toLowerCase();
+
+    if (statusFilter !== "all" && item.status !== statusFilter) {
+      return false;
+    }
 
     return (
       item.title.toLowerCase().includes(query) ||
@@ -41,11 +48,24 @@ function VacancyList({
         onChange={(event) => setSearch(event.target.value)}
         aria-label="Пошук вакансій"
       />
-
+      <label htmlFor="statusFilter">Фільтр за статусом</label>
+      <select
+        id="statusFilter"
+        value={statusFilter}
+        onChange={(event) =>
+          setStatusFilter(event.target.value as VacancyStatus | "all")
+        }
+      >
+        <option value="all">Усі статуси</option>
+        <option value="Saved">{statusLabels.Saved}</option>
+        <option value="Applied">{statusLabels.Applied}</option>
+        <option value="Interview">{statusLabels.Interview}</option>
+        <option value="Rejected">{statusLabels.Rejected}</option>
+      </select>
       {vacancies.length === 0 ? (
         <p>Поки немає збережених вакансій.</p>
       ) : filteredVacancies.length === 0 ? (
-        <p>За цим запитом вакансій немає.</p>
+        <p>За вибраними умовами вакансій немає.</p>
       ) : (
         <ul>
           {filteredVacancies.map((item) => (
