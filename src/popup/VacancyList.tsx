@@ -71,6 +71,17 @@ function VacancyList({
                   <option value="Rejected">{statusLabels.Rejected}</option>
                 </select>
               </div>
+              {item.status === "Saved" && (
+                <p>
+                  Збережено:{" "}
+                  {new Date(item.createdAt).toLocaleDateString("uk-UA")}
+                </p>
+              )}
+              {item.status === "Applied" && item.appliedAt && (
+                <p>
+                  Подано: {new Date(item.appliedAt).toLocaleDateString("uk-UA")}
+                </p>
+              )}
 
               <button type="button" onClick={() => onDelete(item.id)}>
                 Видалити

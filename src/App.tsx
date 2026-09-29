@@ -35,10 +35,8 @@ function App() {
   }
 
   async function handleStatusChange(id: string, status: VacancyStatus) {
-    await updateVacancyStatus(id, status);
-    setVacancies((current) =>
-      current.map((item) => (item.id === id ? { ...item, status } : item)),
-    );
+    const updatedVacancies = await updateVacancyStatus(id, status);
+    setVacancies(updatedVacancies);
   }
 
   return (

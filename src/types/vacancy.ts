@@ -9,6 +9,7 @@ export type Vacancy = {
     note: string;
     status: VacancyStatus;
     createdAt: string;
+    appliedAt?: string;
 };
 
 

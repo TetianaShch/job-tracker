@@ -29,13 +29,24 @@ export async function deleteVacancy(id: string): Promise<void> {
 export async function updateVacancyStatus(
     id: string,
     status: VacancyStatus
-): Promise<void> {
+): Promise<Vacancy[]> {
     const vacancies = await getVacancies();
 
-    await chrome.storage.local.set({
-        vacancies: vacancies.map((item) =>
-            item.id === id ? { ...item, status } : item
-        ),
+    const updatedVacancies = vacancies.map((item) => {
+        if (item.id !== id) return item;
+
+        return {
+            ...item,
+            status,
+            appliedAt:
+                status === "Applied"
+                    ? (item.appliedAt ?? new Date().toISOString())
+                    : item.appliedAt,
+        };
     });
+
+    await chrome.storage.local.set({ vacancies: updatedVacancies });
+
+    return updatedVacancies;
 }
 
