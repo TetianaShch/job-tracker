@@ -1,6 +1,16 @@
 :root {
-  --heading: "Inter", sans-serif;
-  --text-h: #111827;
+  --font-body: "Inter", sans-serif;
+
+  --color-text: #111827;
+  --color-muted: #4b5563;
+  --color-border: #cbd5d1;
+  --color-surface: #fff;
+  --color-background: #f7faf9;
+
+  --color-primary: #286b5c;
+  --color-primary-hover: #205748;
+  --color-primary-soft: #e8f3ef;
+  --color-primary-soft-hover: #d8ebe4;
 }
 
 * {
@@ -9,11 +19,11 @@
 
 body {
   margin: 0;
-  width: 360px;
+  width: 440px;
   padding: 20px;
-  font-family: var(--heading);
-  color: var(--text-h);
-  background: #f7faf9;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-background);
 }
 
 p {

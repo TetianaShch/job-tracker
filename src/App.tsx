@@ -43,14 +43,22 @@ function App() {
     <>
       {view === "add" ? (
         <>
-          <button type="button" onClick={() => setView("list")}>
-            Мої вакансії
+          <button
+            className="openVacanciesButton"
+            type="button"
+            onClick={() => setView("list")}
+          >
+            Переглянути вакансії →
           </button>
           <VacancyForm onSave={handleSave} />
         </>
       ) : (
         <>
-          <button type="button" onClick={() => setView("add")}>
+          <button
+            className="backToFormButton"
+            type="button"
+            onClick={() => setView("add")}
+          >
             ← До форми
           </button>
           <VacancyList

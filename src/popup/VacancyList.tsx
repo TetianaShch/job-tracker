@@ -54,7 +54,7 @@ function VacancyList({
                 {item.title}
               </a>
 
-              {item.company && <span> — {item.company}</span>}
+              {item.company && <p>Компанія: {item.company}</p>}
 
               <div className="statusRow">
                 <label htmlFor={`status-${item.id}`}>Статус: </label>
@@ -82,12 +82,14 @@ function VacancyList({
                   Подано: {new Date(item.appliedAt).toLocaleDateString("uk-UA")}
                 </p>
               )}
-
-              <button type="button" onClick={() => onDelete(item.id)}>
+              {item.note && <p>Нотатка: {item.note}</p>}
+              <button
+                className="deleteVacancyButton"
+                type="button"
+                onClick={() => onDelete(item.id)}
+              >
                 Видалити
               </button>
-
-              {item.note && <p>Нотатка: {item.note}</p>}
             </li>
           ))}
         </ul>
