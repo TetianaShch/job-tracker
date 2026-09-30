@@ -180,3 +180,25 @@ label[for="statusFilter"] {
   outline: none;
   border-color: var(--color-primary);
 }
+
+.interviewDateRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.interviewDateRow input {
+  width: 180px;
+  margin-bottom: 0;
+  padding: 8px 12px;
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.interviewDateRow input:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+}

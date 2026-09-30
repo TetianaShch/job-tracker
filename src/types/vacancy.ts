@@ -10,6 +10,7 @@ export type Vacancy = {
     status: VacancyStatus;
     createdAt: string;
     appliedAt?: string;
+    interviewAt?: string;
 };
 
 

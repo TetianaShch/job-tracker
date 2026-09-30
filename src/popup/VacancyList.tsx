@@ -5,6 +5,7 @@ type VacancyListProps = {
   vacancies: Vacancy[];
   onDelete: (id: string) => void;
   onStatusChange: (id: string, status: VacancyStatus) => void;
+  onInterviewAtChange: (id: string, interviewAt: string) => void;
 };
 
 const statusLabels: Record<VacancyStatus, string> = {
@@ -18,6 +19,7 @@ function VacancyList({
   vacancies,
   onDelete,
   onStatusChange,
+  onInterviewAtChange,
 }: VacancyListProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<VacancyStatus | "all">(
@@ -101,6 +103,19 @@ function VacancyList({
                 <p>
                   Подано: {new Date(item.appliedAt).toLocaleDateString("uk-UA")}
                 </p>
+              )}
+              {item.status === "Interview" && (
+                <div className="interviewDateRow">
+                  <label htmlFor={`interview-${item.id}`}>Дата інтерв’ю:</label>
+                  <input
+                    id={`interview-${item.id}`}
+                    type="date"
+                    value={item.interviewAt ?? ""}
+                    onChange={(event) =>
+                      onInterviewAtChange(item.id, event.target.value)
+                    }
+                  />
+                </div>
               )}
               {item.note && <p>Нотатка: {item.note}</p>}
               <button

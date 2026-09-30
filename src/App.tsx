@@ -8,6 +8,7 @@ import {
   saveVacancy,
   deleteVacancy,
   updateVacancyStatus,
+  updateVacancyInterviewAt,
 } from "./services/vacancies";
 import "./App.css";
 
@@ -39,6 +40,11 @@ function App() {
     setVacancies(updatedVacancies);
   }
 
+  async function handleInterviewAtChange(id: string, interviewAt: string) {
+    const updatedVacancies = await updateVacancyInterviewAt(id, interviewAt);
+    setVacancies(updatedVacancies);
+  }
+
   return (
     <>
       {view === "add" ? (
@@ -65,6 +71,7 @@ function App() {
             vacancies={vacancies}
             onDelete={handleDelete}
             onStatusChange={handleStatusChange}
+            onInterviewAtChange={handleInterviewAtChange}
           />
         </>
       )}
