@@ -69,4 +69,20 @@ export async function updateVacancyInterviewAt(
 
     return updatedVacancies;
 }
+export async function updateVacancyNote(
+    id: string,
+    note: string,
+): Promise<Vacancy[]> {
+    const vacancies = await getVacancies();
+
+    const updatedVacancies = vacancies.map((item) =>
+        item.id === id ? { ...item, note: note.trim() } : item,
+    );
+
+    await chrome.storage.local.set({
+        vacancies: updatedVacancies,
+    });
+
+    return updatedVacancies;
+}
 

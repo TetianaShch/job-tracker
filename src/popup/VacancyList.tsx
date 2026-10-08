@@ -1,11 +1,14 @@
 import { useState } from "react";
 import type { Vacancy, VacancyStatus } from "../types/vacancy";
+import Modal from "./Modal";
+import EditVacancyForm from "./EditVacancyForm";
 
 type VacancyListProps = {
   vacancies: Vacancy[];
   onDelete: (id: string) => void;
   onStatusChange: (id: string, status: VacancyStatus) => void;
   onInterviewAtChange: (id: string, interviewAt: string) => void;
+  onNoteChange: (id: string, note: string) => Promise<void>;
 };
 
 const statusLabels: Record<VacancyStatus, string> = {
@@ -20,6 +23,7 @@ function VacancyList({
   onDelete,
   onStatusChange,
   onInterviewAtChange,
+  onNoteChange,
 }: VacancyListProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<VacancyStatus | "all">(
@@ -38,6 +42,7 @@ function VacancyList({
       item.company.toLowerCase().includes(query)
     );
   });
+  const [editingVacancy, setEditingVacancy] = useState<Vacancy | null>(null);
 
   return (
     <section>
@@ -119,6 +124,13 @@ function VacancyList({
               )}
               {item.note && <p>Нотатка: {item.note}</p>}
               <button
+                className="editVacancyButton"
+                type="button"
+                onClick={() => setEditingVacancy(item)}
+              >
+                Редагувати
+              </button>
+              <button
                 className="deleteVacancyButton"
                 type="button"
                 onClick={() => onDelete(item.id)}
@@ -128,6 +140,21 @@ function VacancyList({
             </li>
           ))}
         </ul>
+      )}
+      {editingVacancy && (
+        <Modal onClose={() => setEditingVacancy(null)}>
+          <h2>Редагувати нотатку</h2>
+          <EditVacancyForm
+            note={editingVacancy.note}
+            onSave={async (note) => {
+              await onNoteChange(editingVacancy.id, note);
+              setEditingVacancy(null);
+            }}
+          />
+          <button type="button" onClick={() => setEditingVacancy(null)}>
+            Скасувати
+          </button>
+        </Modal>
       )}
     </section>
   );
