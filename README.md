@@ -1,58 +1,81 @@
 # Job Tracker
 
-Chrome-розширення для збереження вакансій із відкритої вкладки та відстеження їхнього статусу.
+[English](README.md) | [Українська](README.uk.md)
 
-## Можливості
+A Chrome extension for saving job vacancies directly from the active browser tab and tracking job application progress.
 
-- Автоматично підставляє назву й URL активної вкладки.
-- Дозволяє додати компанію та нотатку.
-- Дозволяє редагувати нотатку до збереженої вакансії через модальне вікно.
-- Зберігає вакансії локально в Chrome і не додає повторно вакансію з тим самим URL.
-- Показує список збережених вакансій і пошук за назвою або компанією.
-- Дозволяє змінити статус: «Збережено», «Подано», «Інтерв’ю» або «Відхилено».
-- Автоматично фіксує дату збереження вакансії та дату подання заявки при зміні статусу на «Подано».
-- Дозволяє видалити вакансію.
-- Дозволяє фільтрувати вакансії за статусом разом із пошуком за назвою або компанією.
-- Дозволяє вказувати, змінювати й очищувати дату інтерв’ю в картці вакансії.
+Built with React, TypeScript, Vite, and Chrome Extension Manifest V3.
 
-Нові вакансії отримують статус «Збережено». Дані зберігаються у `chrome.storage.local`.
+## Features
 
-## Технології
+- Automatically fills in the job title and URL from the active browser tab.
+- Allows users to add a company name and personal notes.
+- Saves vacancies locally using `chrome.storage.local`.
+- Prevents duplicate vacancies with the same URL.
+- Displays saved vacancies with search by job title or company name.
+- Filters vacancies by application status, including combined search and filtering.
+- Supports four statuses: **Saved**, **Applied**, **Interview**, and **Rejected**.
+- Tracks vacancy creation dates and application dates.
+- Allows users to set, update, and clear interview dates.
+- Supports editing vacancy notes through a modal dialog.
+- Allows users to delete saved vacancies.
+
+New vacancies receive the **Saved** status by default. All data is stored locally in the browser.
+
+## Tech Stack
 
 - React
 - TypeScript
 - Vite
 - CSS
-- Chrome Manifest V3
+- Chrome Extension Manifest V3
+- Chrome Storage API
 - Oxlint
 
-## Запуск
+## Screenshots
+
+### Add a Vacancy
+
+![Add vacancy form](screenshots/add-vacancy.png)
+
+### Saved Vacancies
+
+![Saved vacancies list](screenshots/vacancy-list.png)
+
+### Edit Notes
+
+![Edit vacancy note](screenshots/edit-note.png)
+
+## Installation
+
+Clone the repository and install dependencies:
 
 ```bash
+git clone https://github.com/TetianaShch/job-tracker
+cd job-tracker
 npm install
+```
+
+Run linting and build the extension:
+
+```bash
 npm run lint
 npm run build
 ```
 
-Щоб завантажити розширення в Chrome:
+### Load the Extension in Chrome
 
-1. Відкрий `chrome://extensions`.
-2. Увімкни **Режим розробника**.
-3. Натисни **Завантажити розпаковане розширення**.
-4. Вибери папку `dist` цього проєкту.
+1. Open `chrome://extensions`.
+2. Enable **Developer mode**.
+3. Click **Load unpacked**.
+4. Select the `dist` folder from the project.
 
-Після змін у коді виконай `npm run build` ще раз і натисни кнопку оновлення розширення на сторінці `chrome://extensions`.
+The Job Tracker extension will appear in Chrome. Open a job vacancy page and click the extension icon to save it.
 
-## Скріншоти
+After making changes to the source code, run `npm run build` again and reload the extension on `chrome://extensions`.
 
-### Додавання вакансії
+## Future Improvements
 
-![Форма додавання вакансії](screenshots/add-vacancy.png)
-
-### Список вакансій
-
-![Список збережених вакансій](screenshots/vacancy-list.png)
-
-### Редагування нотатки
-
-![Редагування нотатки](screenshots/edit-note.png)
+- Export saved vacancies to CSV.
+- Add automated tests.
+- Improve error handling for browser storage operations.
