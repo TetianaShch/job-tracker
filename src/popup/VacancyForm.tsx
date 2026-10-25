@@ -11,6 +11,7 @@ function VacancyForm({ onSave }: VacancyFormProps) {
   const [company, setCompany] = useState("");
   const [note, setNote] = useState("");
   const [message, setMessage] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
@@ -24,6 +25,8 @@ function VacancyForm({ onSave }: VacancyFormProps) {
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (isSaving) return;
+
     const vacancy: Vacancy = {
       id: crypto.randomUUID(),
       title: title.trim(),
@@ -34,8 +37,18 @@ function VacancyForm({ onSave }: VacancyFormProps) {
       createdAt: new Date().toISOString(),
     };
 
-    const saved = await onSave(vacancy);
-    setMessage(saved ? "Вакансію збережено" : "Цю вакансію вже збережено");
+    setIsSaving(true);
+
+    try {
+      const saved = await onSave(vacancy);
+
+      setMessage(saved ? "Вакансію збережено" : "Цю вакансію вже збережено");
+    } catch (error) {
+      console.error("Failed to save vacancy:", error);
+      setMessage("Помилка збереження вакансії");
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -73,7 +86,9 @@ function VacancyForm({ onSave }: VacancyFormProps) {
         onChange={(event) => setNote(event.target.value)}
       />
 
-      <button type="submit">Зберегти</button>
+      <button type="submit" disabled={isSaving}>
+        {isSaving ? "Зберігаємо..." : "Зберегти"}
+      </button>
       {message && <p role="status">{message}</p>}
     </form>
   );
